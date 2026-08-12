@@ -2,7 +2,9 @@ import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import 'dotenv/config';
 import { commandHandler } from './handlers/command.handler.js';
 import { eventHandler } from './handlers/event.handler.js';
+import { ping } from './utils/ping.js';
 
+ping();
 
 const myBot = new Client({
     intents: [
