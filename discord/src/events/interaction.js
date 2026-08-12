@@ -21,24 +21,24 @@ export default {
         }
 
         if (interaction.isChatInputCommand()) {
-            const coolDownAmount = command.coolDown || 3;
+            // const coolDownAmount = command.coolDown || 3;
             
-            try {
-                const { isLimited, timeLeft } = await CoolDownManager.check({
-                        userId: interaction.user.id,
-                        commandName: command.data.name,
-                        coolDownSeconds: coolDownAmount,
-                    });
+            // try {
+            //     const { isLimited, timeLeft } = await CoolDownManager.check({
+            //             userId: interaction.user.id,
+            //             commandName: command.data.name,
+            //             coolDownSeconds: coolDownAmount,
+            //         });
 
-                if (isLimited && timeLeft > 0) {
-                    return await interaction.reply({
-                        content: `⚠️ يرجى الانتظار **${timeLeft}** ثانية قبل استخدام أمر \`/${command.data.name}\` مجدداً.`,
-                        ephemeral: true
-                    });
-                }
-            } catch (redisError) {
-                // console.error('[Redis Cooldown Error]:', redisError);
-            }
+            //     if (isLimited && timeLeft > 0) {
+            //         return await interaction.reply({
+            //             content: `⚠️ يرجى الانتظار **${timeLeft}** ثانية قبل استخدام أمر \`/${command.data.name}\` مجدداً.`,
+            //             ephemeral: true
+            //         });
+            //     }
+            // } catch (redisError) {
+            //     // console.error('[Redis Cooldown Error]:', redisError);
+            // }
 
             try {
                 await command.execute(interaction);

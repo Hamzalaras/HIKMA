@@ -2,6 +2,7 @@ import { EmbedBuilder } from 'discord.js';
 import { EMBED_COLORS, EMBED_FIELDS, UTIL_STRINGS } from '../../constants/embeds.js';
 import { CHOICES } from '../../constants/options.js';
 import { KatherBotError } from '../errors/Errors.js';
+import { HELP_CONTENT } from '../../constants/helpContent.js';
 
 export const buildPoetEmbed = ({ poet }) => {
 
@@ -21,6 +22,7 @@ export const buildPoetEmbed = ({ poet }) => {
         .setTitle(`${EMBED_FIELDS.POET}: ${poet.name_ar}`)
         .setDescription(biography)
         .addFields(
+            { name: EMBED_FIELDS.ID, value: `${poet.id}`, inline: true },
             { name: EMBED_FIELDS.GENDER, value: gender, inline: true },
             { name: EMBED_FIELDS.COUNTRY, value: country, inline: true },
             { name: EMBED_FIELDS.ERA, value: era, inline: true }
@@ -57,6 +59,7 @@ export const buildPoemEmbed = ({ poem, lines = [] }) => {
         .setTitle(`${EMBED_FIELDS.POEM}: ${poem.name}`)
         .setDescription(description)
         .addFields(
+            { name: EMBED_FIELDS.ID, value: `${poem.id}`, inline: true },
             { name: EMBED_FIELDS.POET, value: poetName, inline: true },
             { name: EMBED_FIELDS.GENDER, value: gender, inline: true },
             { name: EMBED_FIELDS.COUNTRY, value: country, inline: true },
@@ -140,9 +143,10 @@ export const buildSingleLineEmbed = (line) => {
 
     const embed = new EmbedBuilder()
         .setColor(EMBED_COLORS.CAMEL)
-        .setTitle(EMBED_FIELDS.LINES)
+        .setTitle(EMBED_FIELDS.LINE)
         .setDescription(`**${content}**`)
         .addFields(
+            { name: EMBED_FIELDS.ID, value: `${line.id}`, inline: true },
             { name: EMBED_FIELDS.POET, value: poetName, inline: true },
             { name: EMBED_FIELDS.POEM, value: poemName, inline: true },
             { name: EMBED_FIELDS.GENDER, value: gender, inline: true },
@@ -155,6 +159,24 @@ export const buildSingleLineEmbed = (line) => {
         )
         .setFooter({ text: UTIL_STRINGS.EXTRACTED_KATHER })
         .setTimestamp();
+
+    return embed;
+};
+
+export const buildHelpEmbed = () => {
+    const embed = new EmbedBuilder()
+        .setColor(EMBED_COLORS.CAMEL)
+        .setTitle(HELP_CONTENT.general.title)
+        .setDescription(`${HELP_CONTENT.general.description}\n\n${HELP_CONTENT.tips}`)
+        .setFooter({ text: UTIL_STRINGS.EXTRACTED_KATHER });
+
+    const commandFields = Object.values(HELP_CONTENT.commands).map(cmd => ({
+        name: `/${cmd.name}`,
+        value: `**الوصف:** ${cmd.description}\n**الخيارات المتاحة:**\n${cmd.options}`,
+        inline: false
+    }));
+
+    embed.addFields(commandFields);
 
     return embed;
 };

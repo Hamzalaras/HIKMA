@@ -11,6 +11,7 @@ export const EMBED_COLORS = {
 };
 
 export const EMBED_FIELDS = {
+    ID: '🪪 معرف ',
     POET: '🎭 الشاعر',
     POEM: '📖 القصيدة',
     GENDER: '🧬 الجنس',
@@ -20,5 +21,6 @@ export const EMBED_FIELDS = {
     TOPIC: '💭 الموضوع',
     QUAFIA: '🎼 القافية',
     POEM_TYPE: '📝 نوع القصيدة',
+    LINE: '✒️ البيت ',
     LINES: '📜 الأبيات',
 };

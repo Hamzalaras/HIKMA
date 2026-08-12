@@ -60,13 +60,11 @@ export const CHOICES = {
     },
     LINE_TYPES: {
         NAMES: {
-            NULL: 'فارغ',
             SADR: 'صدر',
             AJZ: 'عجز',
             FREE_VERSE: 'حر',
         },
         VALUES: {
-            NULL: '0',
             SADR: '1',
             AJZ: '2',
             FREE_VERSE: '3',

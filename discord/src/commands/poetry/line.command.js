@@ -20,7 +20,6 @@ const data = new SlashCommandBuilder()
     .addStringOption(opt => opt.setName(COMMAND_OPTIONS.LINE.LINE_TYPE)
         .setDescription('نوع البيت (صدر، عجز، حر)')
         .addChoices(
-            { name: CHOICES.LINE_TYPES.NAMES.NULL, value: CHOICES.LINE_TYPES.VALUES.NULL },
             { name: CHOICES.LINE_TYPES.NAMES.SADR, value: CHOICES.LINE_TYPES.VALUES.SADR },
             { name: CHOICES.LINE_TYPES.NAMES.AJZ, value: CHOICES.LINE_TYPES.VALUES.AJZ },
             { name: CHOICES.LINE_TYPES.NAMES.FREE_VERSE, value: CHOICES.LINE_TYPES.VALUES.FREE_VERSE },

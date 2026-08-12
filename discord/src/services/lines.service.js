@@ -24,7 +24,7 @@ export const getSingleLine = async ({ lineId, poem, poet, lineType, gender, era,
         url = `${KATHER_ROUTES.LINES}/random${buildQuery({ poetId: poet })}`;
     } else {
         url = `${KATHER_ROUTES.LINES}/random${buildQuery({ 
-            line_type: lineType, gender, era, country, type: poemType, topic, quafia, sea 
+            lineType, gender, era, country, poemType, topic, quafia, sea 
         })}`;
     }
 
@@ -42,12 +42,13 @@ export const getLines = async ({ poet, poem, lineType, gender, era, country, poe
         queryParams = { poetId: poet, limit, offset };
     } else {
         queryParams = { 
-            gender, era, country, type: poemType, topic, quafia, sea,
-            line_type: lineType, limit, offset 
+            gender, era, country, poemType, topic, quafia, sea,
+            lineType, limit, offset 
         };
     }
 
     const url = `${KATHER_ROUTES.LINES}${buildQuery(queryParams)}`;
+    console.log(url);
     const res = await fetchAndValidate({ url, errorMessage: 'Error fetching lines data', expectArray: true });
     return res;
 };
