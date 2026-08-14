@@ -70,8 +70,8 @@ const execute = async (interaction) => {
     const userTag = `<@${interaction.user.id}>`;
 
     const options = {
-        poem: interaction.options.getString(COMMAND_OPTIONS.LINE.POEM),
-        poet: interaction.options.getString(COMMAND_OPTIONS.LINE.POET),
+        poemId: interaction.options.getString(COMMAND_OPTIONS.LINE.POEM),
+        poetId: interaction.options.getString(COMMAND_OPTIONS.LINE.POET),
         lineType: interaction.options.getString(COMMAND_OPTIONS.LINE.LINE_TYPE),
         gender: interaction.options.getString(COMMAND_OPTIONS.LINE.GENDER),
         era: interaction.options.getString(COMMAND_OPTIONS.LINE.ERA),

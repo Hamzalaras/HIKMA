@@ -40,3 +40,17 @@ export const formatAutocompleteData = (items, query = '') => {
             value: `${item.id}`
         }));
 };
+
+export const resolveId = async (val, route) => {
+    const resolvedVal = Number.parseInt(val, 10);
+
+    if (!isNaN(resolvedVal)) return resolvedVal;
+
+    const res = await fetchAndValidate({
+        url: `${route}?q=${encodeURIComponent(val)}`,
+        errorMessage: `Failed to resolve: ${val}`,
+        expectArray: true
+    });
+
+    return res.data[0]?.id;
+};

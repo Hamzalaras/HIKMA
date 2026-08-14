@@ -1,17 +1,23 @@
 import { KATHER_ROUTES, KATHER_ENDPOINTS } from '../constants/https.js';
 import { COMMAND_OPTIONS } from '../constants/options.js';
 import { buildQuery } from '../utils/builders/meta.builders.js';
-import { fetchAndValidate, formatAutocompleteData } from '../utils/service.helpers.js';
+import { fetchAndValidate, formatAutocompleteData, resolveId } from '../utils/service.helpers.js';
 
 const POET_AUTOCOMPLETE_URLS = {
     [COMMAND_OPTIONS.POET.ERA]: () => `${KATHER_ROUTES.CATALOG}${KATHER_ENDPOINTS.CATALOG.ERA}`,
     [COMMAND_OPTIONS.POET.COUNTRY]: () => `${KATHER_ROUTES.CATALOG}${KATHER_ENDPOINTS.CATALOG.COUNTRY}`,
 };
 
-export const getPoet = async ({ poet_id, gender, era, country }) => {
-    const url = poet_id 
-        ? `${KATHER_ROUTES.POETS}/${poet_id}` 
-        : `${KATHER_ROUTES.POETS}/random${buildQuery({ gender, era, country })}`;
+export const getPoet = async ({ poetId, gender, era, country }) => {
+
+    let url = `${KATHER_ROUTES.POETS}`;
+
+    if (poetId) {
+        const resolvedPoetId = await resolveId(poetId, KATHER_ROUTES.POETS);
+        url += `/${resolvedPoetId}`;
+    } else {
+        url += `/random${buildQuery({ gender, era, country })}`;
+    }
 
     const res = await fetchAndValidate({ url, errorMessage: 'Error fetching poet data' });
     return res.data;

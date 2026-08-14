@@ -60,8 +60,8 @@ const execute = async (interaction) => {
 
     const options = {
         lineId: interaction.options.getString(COMMAND_OPTIONS.LINE.LINE_ID),
-        poem: interaction.options.getString(COMMAND_OPTIONS.LINE.POEM),
-        poet: interaction.options.getString(COMMAND_OPTIONS.LINE.POET),
+        poemId: interaction.options.getString(COMMAND_OPTIONS.LINE.POEM),
+        poetId: interaction.options.getString(COMMAND_OPTIONS.LINE.POET),
         lineType: interaction.options.getString(COMMAND_OPTIONS.LINE.LINE_TYPE),
         gender: interaction.options.getString(COMMAND_OPTIONS.LINE.GENDER),
         era: interaction.options.getString(COMMAND_OPTIONS.LINE.ERA),
@@ -91,8 +91,8 @@ const autocompleteHandler = async (interaction) => {
     const line_id = interaction.options.getString(COMMAND_OPTIONS.LINE.LINE_ID);
 
     const options = {
-        poem: interaction.options.getString(COMMAND_OPTIONS.LINE.POEM),
-        poet: interaction.options.getString(COMMAND_OPTIONS.LINE.POET),
+        poemId: interaction.options.getString(COMMAND_OPTIONS.LINE.POEM),
+        poetId: interaction.options.getString(COMMAND_OPTIONS.LINE.POET),
         lineType: interaction.options.getString(COMMAND_OPTIONS.LINE.LINE_TYPE),
         gender: interaction.options.getString(COMMAND_OPTIONS.LINE.GENDER),
         era: interaction.options.getString(COMMAND_OPTIONS.LINE.ERA),
