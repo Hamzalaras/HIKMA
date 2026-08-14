@@ -1,7 +1,7 @@
 import { KATHER_ROUTES, KATHER_ENDPOINTS } from '../constants/https.js';
 import { COMMAND_OPTIONS } from '../constants/options.js';
 import { buildQuery } from '../utils/builders/meta.builders.js';
-import { fetchAndValidate, formatAutocompleteData } from '../utils/service.helpers.js';
+import { fetchAndValidate, formatAutocompleteData, resolveId } from '../utils/service.helpers.js';
 
 const LINES_AUTOCOMPLETE_URLS = {
     [COMMAND_OPTIONS.LINE.POEM]: (val) => `${KATHER_ROUTES.POEMS}?q=${encodeURIComponent(val)}`,
@@ -13,15 +13,18 @@ const LINES_AUTOCOMPLETE_URLS = {
     [COMMAND_OPTIONS.LINE.SEA]: () => `${KATHER_ROUTES.CATALOG}${KATHER_ENDPOINTS.CATALOG.SEA}`,
 };
 
-export const getSingleLine = async ({ lineId, poem, poet, lineType, gender, era, country, poemType, topic, quafia, sea }) => {
-    let url;
+export const getSingleLine = async ({ lineId, poemId, poetId, lineType, gender, era, country, poemType, topic, quafia, sea }) => {
+    let url = `${KATHER_ROUTES.LINES}`;
 
     if (lineId) {
-        url = `${KATHER_ROUTES.LINES}/${lineId}`;
-    } else if (poem) {
-        url = `${KATHER_ROUTES.LINES}/random${buildQuery({ poemId: poem })}`;
-    } else if (poet) {
-        url = `${KATHER_ROUTES.LINES}/random${buildQuery({ poetId: poet })}`;
+        const resolvedLineId = await resolveId(lineId, KATHER_ROUTES.LINES);
+        url += `/${resolvedLineId}`
+    } else if (poemId) {
+        const resolvedPoemId = await resolveId(poemId, KATHER_ROUTES.POEMS);
+        url += `/random${buildQuery({ poemId: resolvedPoemId })}`;
+    } else if (poetId) {
+        const resolvedPoetId = await resolveId(poetId, KATHER_ROUTES.POETS);
+        url += `/random${buildQuery({ poetId: resolvedPoetId })}`;
     } else {
         url = `${KATHER_ROUTES.LINES}/random${buildQuery({ 
             lineType, gender, era, country, poemType, topic, quafia, sea 
@@ -32,14 +35,16 @@ export const getSingleLine = async ({ lineId, poem, poet, lineType, gender, era,
     return res.data;
 };
 
-export const getLines = async ({ poet, poem, lineType, gender, era, country, poemType, topic, quafia, sea, page = 1, limit = 50 }) => {
+export const getLines = async ({ poetId, poemId, lineType, gender, era, country, poemType, topic, quafia, sea, page = 1, limit = 50 }) => {
     const offset = (page - 1) * limit;
     let queryParams;
 
-    if (poem) {
-        queryParams = { poemId: poem, limit, offset };
-    } else if (poet) {
-        queryParams = { poetId: poet, limit, offset };
+    if (poemId) {
+        const resolvedPoemId = await resolveId(poemId, KATHER_ROUTES.POEMS);
+        queryParams = { poemId: resolvedPoemId, limit, offset };
+    } else if (poetId) {
+        const resolvedPoetId = await resolveId(poetId, KATHER_ROUTES.POETS);
+        queryParams = { poetId: resolvedPoetId, limit, offset };
     } else {
         queryParams = { 
             gender, era, country, poemType, topic, quafia, sea,
@@ -48,7 +53,6 @@ export const getLines = async ({ poet, poem, lineType, gender, era, country, poe
     }
 
     const url = `${KATHER_ROUTES.LINES}${buildQuery(queryParams)}`;
-    console.log(url);
     const res = await fetchAndValidate({ url, errorMessage: 'Error fetching lines data', expectArray: true });
     return res;
 };

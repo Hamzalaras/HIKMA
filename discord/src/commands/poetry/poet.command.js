@@ -31,14 +31,14 @@ const data = new SlashCommandBuilder()
 const execute = async (interaction) => {
     await interaction.deferReply();
     const userTag = `<@${interaction.user.id}>`;
-    const [poet_id, gender, era, country] = 
+    const [poetId, gender, era, country] = 
         [
             interaction.options.getString(COMMAND_OPTIONS.POET.POET_ID),
             interaction.options.getString(COMMAND_OPTIONS.POET.GENDER),
             interaction.options.getString(COMMAND_OPTIONS.POET.ERA),
             interaction.options.getString(COMMAND_OPTIONS.POET.COUNTRY),
         ];
-    const poet = await getPoet({ poet_id, gender, era, country });
+    const poet = await getPoet({ poetId, gender, era, country });
     
     const embed = buildPoetEmbed({ poet });
 
@@ -57,7 +57,7 @@ const autocompleteHandler = async (interaction) => {
             focusedOption.value.trim().toLowerCase()
         ];
 
-    const poet_id = interaction.options.getString(COMMAND_OPTIONS.POET.POET_ID);
+    const poetId = interaction.options.getString(COMMAND_OPTIONS.POET.POET_ID);
     const options = {
             gender: interaction.options.getString(COMMAND_OPTIONS.POET.GENDER),
             era: interaction.options.getString(COMMAND_OPTIONS.POET.ERA),
@@ -65,7 +65,7 @@ const autocompleteHandler = async (interaction) => {
         }
     const choices = (optionName === COMMAND_OPTIONS.POET.POET_ID && 
                     Object.values(options).every(value => value == null)) 
-                    || poet_id == null ?
+                    || poetId == null ?
                         await withTimeout({
                             fn: ({ signal }) => getPoetAutocomplete({ optionName, optionValue, signal }),
                             timeout: 2_700,

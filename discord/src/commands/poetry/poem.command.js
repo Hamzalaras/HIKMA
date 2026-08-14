@@ -62,7 +62,7 @@ const execute = async (interaction) => {
     await interaction.deferReply();
     const userTag = `<@${interaction.user.id}>`;
 
-    const [poem_id, gender, era, country, poemType, topic, quafia, sea] = [
+    const [poemId, gender, era, country, poemType, topic, quafia, sea] = [
         interaction.options.getString(COMMAND_OPTIONS.POEM.POEM_ID),
         interaction.options.getString(COMMAND_OPTIONS.POEM.GENDER),
         interaction.options.getString(COMMAND_OPTIONS.POEM.ERA),
@@ -73,7 +73,7 @@ const execute = async (interaction) => {
         interaction.options.getString(COMMAND_OPTIONS.POEM.SEA),
     ];
 
-    const { poem, lines = [] } = await getPoem({ poem_id, gender, era, country, poemType, topic, quafia, sea });
+    const { poem, lines = [] } = await getPoem({ poemId, gender, era, country, poemType, topic, quafia, sea });
 
     const embed = buildPoemEmbed({ poem, lines });
 
@@ -95,7 +95,7 @@ const autocompleteHandler = async (interaction) => {
         focusedOption.value.trim().toLowerCase(),
     ];
 
-    const poem_id = interaction.options.getString(COMMAND_OPTIONS.POEM.POEM_ID);
+    const poemId = interaction.options.getString(COMMAND_OPTIONS.POEM.POEM_ID);
     const options = {
         gender: interaction.options.getString(COMMAND_OPTIONS.POEM.GENDER),
         era: interaction.options.getString(COMMAND_OPTIONS.POEM.ERA),
@@ -108,7 +108,7 @@ const autocompleteHandler = async (interaction) => {
 
     const choices = (optionName === COMMAND_OPTIONS.POEM.POEM_ID && 
                     Object.values(options).every(value => value == null))
-                    || poem_id == null ?
+                    || poemId == null ?
                         await withTimeout({
                             fn: ({ signal }) => getPoemAutocomplete({ optionName, optionValue, signal }),
                             timeout: 2_700,
